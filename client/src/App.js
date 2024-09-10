@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import axios from "axios";
+import "./App.css";
 
 function App() {
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const call = () => {
+    axios("http://localhost:3001/")
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((err) => setError(err));
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={call}>Call</button>
+      <div>Data: {data && data.msg}</div>
+      <div>Error:{error && error.message}</div>
     </div>
   );
 }
